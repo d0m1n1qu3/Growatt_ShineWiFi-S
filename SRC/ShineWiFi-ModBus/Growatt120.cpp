@@ -5,6 +5,7 @@
 // Supported inverters:
 // - Growatt MIC 1000TL-X
 // - Growatt MID 30kTL3-X
+// - Growatt MIC 600TL-X (use GROWATT_MODBUS_VERSION_120_LITE)
 
 // Should also work for the following series (with input register range 0~124):
 // - TL-X（MIN Type）
@@ -32,6 +33,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_INPUT_POWER] = sGrowattModbusReg_t{
       1, 0, SIZE_32BIT, "InputPower", 0.1, 0.1, POWER_W, true, true};
   // 2. Ppv L Input power (low) 0.1W
+  #ifdef GROWATT_MODBUS_VERSION_120_LITE
   // 3. Vpv1 PV1 voltage 0.1V
   Protocol.InputRegisters[P120_PV1_VOLTAGE] = sGrowattModbusReg_t{
       3, 0, SIZE_16BIT, "PV1Voltage", 0.1, 0.1, VOLTAGE, false, false};
@@ -112,6 +114,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_PV8_INPUT_POWER] = sGrowattModbusReg_t{
       33, 0, SIZE_32BIT, "PV8InputPower", 0.1, 0.1, POWER_W, true, true};
   // 34. Ppv8 L PV8 input power (low) 0.1W
+#endif
   // 35. Pac H Output power (high) 0.1W
   Protocol.InputRegisters[P120_OUTPUT_POWER] = sGrowattModbusReg_t{
       35, 0, SIZE_32BIT, "OutputPower", 0.1, 0.1, POWER_W, true, true};
@@ -130,6 +133,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_GRID_L1_OUTPUT_POWER] = sGrowattModbusReg_t{
       40, 0, SIZE_32BIT, "GridL1OutputPower", 0.1, 0.1, VA, false, false};
   // 41. Pac1 L Three/single phase grid output watt(low) 0.1VA
+  #ifdef GROWATT_MODBUS_VERSION_120_LITE
   // 42. Vac2 Three phase grid voltage 0.1V
   Protocol.InputRegisters[P120_GRID_L2_VOLTAGE] = sGrowattModbusReg_t{
       42, 0, SIZE_16BIT, "GridL2Voltage", 0.1, 0.1, VOLTAGE, false, false};
@@ -164,6 +168,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   // 52. Vac_TR Three phase grid voltage 0.1V Line voltage
   Protocol.InputRegisters[P120_GRID_TR_VOLTAGE] = sGrowattModbusReg_t{
       52, 0, SIZE_16BIT, "GridTRVoltage", 0.1, 0.1, VOLTAGE, false, false};
+#endif
   // 53. Eac today H Today generate energy (high) 0.1kWH
   Protocol.InputRegisters[P120_ENERGY_TODAY] = sGrowattModbusReg_t{
       53, 0, SIZE_32BIT, "EnergyToday", 0.1, 0.1, POWER_KWH, true, false};
@@ -184,6 +189,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_PV1_ENERGY_TOTAL] = sGrowattModbusReg_t{
       61, 0, SIZE_32BIT, "PV1EnergyTotal", 0.1, 0.1, POWER_KWH, false, false};
   // 62. Epv1_total L PV1 Energy total (low) 0.1kWh
+  #ifdef GROWATT_MODBUS_VERSION_120_LITE
   // 63. Epv2_today H PV2 Energy today (high) 0.1kWh
   Protocol.InputRegisters[P120_PV2_ENERGY_TODAY] = sGrowattModbusReg_t{
       63, 0, SIZE_32BIT, "PV2EnergyToday", 0.1, 0.1, POWER_KWH, false, false};
@@ -240,6 +246,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_PV8_ENERGY_TOTAL] = sGrowattModbusReg_t{
       89, 0, SIZE_32BIT, "PV8EnergyTotal", 0.1, 0.1, POWER_KWH, false, false};
   // 90. Epv8_total L PV8 Energy total (low) 0.1kWh
+#endif
   // 91. Epv_total H PV Energy total (high) 0.1kWh
   Protocol.InputRegisters[P120_PV_ENERGY_TOTAL] = sGrowattModbusReg_t{
       91, 0, SIZE_32BIT, "PVEnergyTotal", 0.1, 0.1, POWER_KWH, true, false};
