@@ -31,6 +31,7 @@ e.g. C:\Users\<username>\AppData\Local\Temp\arduino_build_533155
 #include "WebDebug.h"
 #include "ShineWifi.h"
 #include "Index.h"
+#include "ChartJS.h"
 #include "Growatt.h"
 #include <Preferences.h>
 #include <WiFiManager.h>
@@ -300,6 +301,7 @@ void setup()
     httpServer.on("/postCommunicationModbus", SendPostSite);
     httpServer.on("/postCommunicationModbus_p", HTTP_POST, handlePostData);
     httpServer.on("/", MainPage);
+    httpServer.on("/chart.js", ChartJS);
     #if ENABLE_WEB_DEBUG == 1
         httpServer.on("/debug", SendDebug);
     #endif
@@ -383,6 +385,11 @@ void SendDebug(void)
 void MainPage(void)
 {
     httpServer.send(200, "text/html", MAIN_page);
+}
+
+void ChartJS(void)
+{
+    httpServer.send(200, "text/javascript", chartjs);
 }
 
 void SendPostSite(void)
