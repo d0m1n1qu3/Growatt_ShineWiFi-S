@@ -3,6 +3,9 @@
 #include "Arduino.h"
 #include "GrowattTypes.h"
 
+//enable this für a Balkonkraftwerk with MIC 600 for example
+#define GROWATT_MODBUS_VERSION_120_LITE
+
 // Growatt modbus protocol version 1.20
 typedef enum {
   P120_I_STATUS = 0,

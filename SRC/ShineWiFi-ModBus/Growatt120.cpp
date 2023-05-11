@@ -33,7 +33,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_INPUT_POWER] = sGrowattModbusReg_t{
       1, 0, SIZE_32BIT, "InputPower", 0.1, 0.1, POWER_W, true, true};
   // 2. Ppv L Input power (low) 0.1W
-  #ifdef GROWATT_MODBUS_VERSION_120_LITE
+  #ifndef GROWATT_MODBUS_VERSION_120_LITE
   // 3. Vpv1 PV1 voltage 0.1V
   Protocol.InputRegisters[P120_PV1_VOLTAGE] = sGrowattModbusReg_t{
       3, 0, SIZE_16BIT, "PV1Voltage", 0.1, 0.1, VOLTAGE, false, false};
@@ -133,7 +133,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_GRID_L1_OUTPUT_POWER] = sGrowattModbusReg_t{
       40, 0, SIZE_32BIT, "GridL1OutputPower", 0.1, 0.1, VA, false, false};
   // 41. Pac1 L Three/single phase grid output watt(low) 0.1VA
-  #ifdef GROWATT_MODBUS_VERSION_120_LITE
+  #ifndef GROWATT_MODBUS_VERSION_120_LITE
   // 42. Vac2 Three phase grid voltage 0.1V
   Protocol.InputRegisters[P120_GRID_L2_VOLTAGE] = sGrowattModbusReg_t{
       42, 0, SIZE_16BIT, "GridL2Voltage", 0.1, 0.1, VOLTAGE, false, false};
@@ -181,6 +181,7 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_WORK_TIME_TOTAL] = sGrowattModbusReg_t{
       57, 0, SIZE_32BIT, "WorkTimeTotal", 0.5, 1, SECONDS, false, false};
   // 58. Time total L Work time total (low) 0.5s
+  #ifndef GROWATT_MODBUS_VERSION_120_LITE
   // 59. Epv1_today H PV1 Energy today (high) 0.1kWh
   Protocol.InputRegisters[P120_PV1_ENERGY_TODAY] = sGrowattModbusReg_t{
       59, 0, SIZE_32BIT, "PV1EnergyToday", 0.1, 0.1, POWER_KWH, false, false};
@@ -189,7 +190,6 @@ void init_growatt120(sProtocolDefinition_t &Protocol) {
   Protocol.InputRegisters[P120_PV1_ENERGY_TOTAL] = sGrowattModbusReg_t{
       61, 0, SIZE_32BIT, "PV1EnergyTotal", 0.1, 0.1, POWER_KWH, false, false};
   // 62. Epv1_total L PV1 Energy total (low) 0.1kWh
-  #ifdef GROWATT_MODBUS_VERSION_120_LITE
   // 63. Epv2_today H PV2 Energy today (high) 0.1kWh
   Protocol.InputRegisters[P120_PV2_ENERGY_TODAY] = sGrowattModbusReg_t{
       63, 0, SIZE_32BIT, "PV2EnergyToday", 0.1, 0.1, POWER_KWH, false, false};

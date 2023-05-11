@@ -12,7 +12,10 @@
 // files and then specifying the protocol there. See existing procol files
 // for reference.
 #define GROWATT_MODBUS_VERSION 120
-#define GROWATT_MODBUS_VERSION_120_LITE 1
+
+// for 120 you can also enable a lite version of Protokoll if you have for example a MIC 600
+// enable this in Growatt120.h (can't get it work enabling here)
+//#define GROWATT_MODBUS_VERSION_120_LITE
 
 // Setting this define to 0 will disable the MQTT functionality
 #define MQTT_SUPPORTED 1
