@@ -375,6 +375,13 @@ void StartConfigAccessPoint(void)
     StartedConfigAfterBoot = true;
 }
 
+String processor(const String& var) {
+  if (var == "HOSTNAMEPLACEHOLDER") {
+    return String(HOSTNAME);
+  }
+  return String();
+}
+
 #if ENABLE_WEB_DEBUG == 1
 void SendDebug(void)
 {

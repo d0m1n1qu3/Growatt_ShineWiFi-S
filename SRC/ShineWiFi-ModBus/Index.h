@@ -20,7 +20,7 @@ copies or substantial portions of the Software. -->
     <style>
         body {
             min-width: 310px;
-            max-width: 800px;
+            max-width: 900px;
             height: 400px;
             margin: 0 auto;
         }
@@ -28,6 +28,42 @@ copies or substantial portions of the Software. -->
         h2 {
             font-family: Arial;
             font-size: 2.5rem;
+            text-align: center;
+        }
+
+        div {
+            font-family: Arial;
+            font-size: 1rem;
+            padding: 10px 4px;
+        }
+
+        .BtnBar {
+            text-align: center;
+        }
+
+        .link_button {
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            border: solid 1px #91ca5f;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+            -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            background: #6eb92b;
+            color: #FFF;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px;
+            font-family: Arial;
+            font-size: .8rem;
+            text-align: center;
+        }
+
+        .FooterBar {
+            font-family: Arial;
+            font-size: .7rem;
             text-align: center;
         }
     </style>
@@ -39,13 +75,16 @@ copies or substantial portions of the Software. -->
     <div><canvas id="powerChart"></canvas></div>
     <div id="DataContainer"></div>
 
-  <a href="./firmware">Firmware update</a> -
-  <a href="./status">Json</a> -
-  <a href="./uistatus">UI Json</a> -
-  <a href="./debug">Log</a> -
-  <a href="./StartAp">Start config access point</a> -
-  <a href="./postCommunicationModbus">RW Modbus</a>
+    <div class="BtnBar">
+        <a href="./firmware" class="link_button">Firmware update</a>
+        <a href="./status" class="link_button">Json</a>
+        <a href="./uistatus" class="link_button">UI Json</a>
+        <a href="./debug" class="link_button">Log</a>
+        <a href="./StartAp" class="link_button">Start config access point</a>
+        <a href="./postCommunicationModbus" class="link_button">RW Modbus</a>
+    </div>
 
+    <div class="FooterBar"><a href="https://github.com/d0m1n1qu3/Growatt_ShineWiFi-S">https://github.com/d0m1n1qu3/Growatt_ShineWiFi-S</a></div>
 </body>
 
 <script>
