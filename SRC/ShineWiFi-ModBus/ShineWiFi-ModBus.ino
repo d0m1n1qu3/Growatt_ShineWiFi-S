@@ -30,11 +30,10 @@ e.g. C:\Users\<username>\AppData\Local\Temp\arduino_build_533155
 
 #include "WebDebug.h"
 #include "ShineWifi.h"
-#include "Index.h"
-#include "ChartJS.h"
 #include "Growatt.h"
 #include <Preferences.h>
 #include <WiFiManager.h>
+#include <EspHtmlTemplateProcessor.h>
 
 #if UPDATE_SUPPORTED == 1
     #ifdef ESP8266
@@ -92,6 +91,7 @@ uint16_t u16PacketCnt = 0;
 #elif ESP32
     WebServer httpServer(80);
 #endif
+EspHtmlTemplateProcessor templateProcessor(&httpServer);
 
 #if UPDATE_SUPPORTED == 1
     const char* update_path = "/firmware";
@@ -295,13 +295,17 @@ void setup()
         setupMenu(false);
     #endif
 
+    LittleFS.begin();
+
     httpServer.on("/status", SendJsonSite);
     httpServer.on("/uistatus", SendUiJsonSite);
     httpServer.on("/StartAp", StartConfigAccessPoint);
     httpServer.on("/postCommunicationModbus", SendPostSite);
     httpServer.on("/postCommunicationModbus_p", HTTP_POST, handlePostData);
     httpServer.on("/", MainPage);
-    httpServer.on("/chart.js", ChartJS);
+    httpServer.serveStatic("/chart.js", LittleFS, "/chart.js");
+    httpServer.serveStatic("/favicon.ico", LittleFS, "/favicon.ico");
+
     #if ENABLE_WEB_DEBUG == 1
         httpServer.on("/debug", SendDebug);
     #endif
@@ -352,6 +356,13 @@ void setupMenu(bool enableCustomParams){
     wm.setMenu(menu); // custom menu, pass vector
 }
 
+String indexKeyProcessor(const String& key)
+{
+  if (key == "HOSTNAMEPLACEHOLDER") return HOSTNAME;
+  else if (key == "VAR1") return "It works!";
+
+  return "Key not found";
+}
 
 void SendJsonSite(void)
 {
@@ -375,13 +386,6 @@ void StartConfigAccessPoint(void)
     StartedConfigAfterBoot = true;
 }
 
-String processor(const String& var) {
-  if (var == "HOSTNAMEPLACEHOLDER") {
-    return String(HOSTNAME);
-  }
-  return String();
-}
-
 #if ENABLE_WEB_DEBUG == 1
 void SendDebug(void)
 {
@@ -391,17 +395,14 @@ void SendDebug(void)
 
 void MainPage(void)
 {
-    httpServer.send(200, "text/html", MAIN_page);
-}
-
-void ChartJS(void)
-{
-    httpServer.send(200, "text/javascript", chartjs);
+    //httpServer.send(200, "text/html", MAIN_page);
+    templateProcessor.processAndSend("/index.html", indexKeyProcessor);
 }
 
 void SendPostSite(void)
 {
-    httpServer.send(200, "text/html", SendPostSite_page);
+    //httpServer.send(200, "text/html", SendPostSite_page);
+    templateProcessor.processAndSend("/modbus.html", indexKeyProcessor);
 }
 
 void handlePostData()
