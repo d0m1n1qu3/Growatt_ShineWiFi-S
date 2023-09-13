@@ -19,27 +19,26 @@
 
 // Setting this define to 0 will disable the MQTT functionality
 #define MQTT_SUPPORTED 1
-// Define the MQTT max packet size here. This only needs to be done for sake of
-// ArduinoIDE compatibility. PlatformIO sets the MQTT_MAX_PACKET_SIZE in platformio.ini
-#ifndef MQTT_MAX_PACKET_SIZE
-#define MQTT_MAX_PACKET_SIZE 2048
-#endif
 
 // Setting this define to 1 will ping the default gateway periodically
 // if the ping is not successful, the wifi connection will be reestablished
 #define PINGER_SUPPORTED 0
 
-// Enable update over web
-#define UPDATE_SUPPORTED 1
-
 // Setting this define to 1 will enable the debug output via the serial port.
 // The serial port is the same used for the communication to the inverter.
 // Enabling this feature can cause problems with the inverter communication!
 // For ShineWiFi-S everything seems to work perfect even though this flag is set
-#define ENABLE_DEBUG_OUTPUT 0
+// #define ENABLE_SERIAL_DEBUG
 
-// Setting this define to 1 will enable a web page (<ip>/debug) where debug messages can be displayed
-#define ENABLE_WEB_DEBUG 1
+// define this will enable a web page (<ip>/debug) where debug messages can be displayed
+#define ENABLE_WEB_DEBUG
+// define this will enable Remote Debug
+// #define ENABLE_TELNET_DEBUG
+
+#if defined(ENABLE_SERIAL_DEBUG) || defined(ENABLE_WEB_DEBUG) || defined(ENABLE_TELNET_DEBUG)
+// to debug Modbus output turn this on (this is very verbose)
+// #define DEBUG_MODBUS_OUTPUT
+#endif
 
 // Enable TLS connection from stick to broker. Make sure to update port and hostname to match the cert
 // of the mqtt broker as well. Change this CERT to your custom mqtt cert.
@@ -78,6 +77,7 @@
 #define WIFI_RETRY_TIMER 120000 // 120s default
 #define LED_TIMER 500 //  0.5s default
 #define BUTTON_TIMER 500 //  0.5s default
+#define WDT_TIMEOUT 300 // 5 min default
 
 #if PINGER_SUPPORTED == 1
     #define GATEWAY_IP IPAddress(192, 168, 178, 1)

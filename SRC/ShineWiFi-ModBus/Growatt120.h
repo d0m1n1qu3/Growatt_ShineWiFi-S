@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Arduino.h"
+#include "Growatt.h"
 #include "GrowattTypes.h"
 
 //enable this für a Balkonkraftwerk with MIC 600 for example
@@ -89,4 +90,4 @@ typedef enum {
   LASTHolding
 } eP120HoldingRegisters_t;
 
-void init_growatt120(sProtocolDefinition_t &Protocol);
+void init_growatt120(sProtocolDefinition_t &Protocol, Growatt &inverter);

@@ -1,4 +1,5 @@
 # Growatt_ShineWiFi
+
 Firmware replacement for Growatt ShineWiFi-S (serial), ShineWiFi-X (USB) or custom build sticks (ESP8266/ESP32).
 
 # How to install
@@ -24,7 +25,7 @@ Implemented Features:
 * Built-in simple Webserver
 * The inverter is queried using Modbus Protocol
 * The data received will be transmitted by MQTT to a server of your choice.
-* The data received is also provied as JSON
+* The data received is also provided as JSON
 * Show a simple live graph visualization  (`http://<ip>`) with help from highcharts.com
 * It supports convenient OTA firmware update (`http://<ip>/firmware`)
 * It supports basic access to arbitrary modbus data
@@ -32,6 +33,7 @@ Implemented Features:
 * Wifi manager with own access point for initial configuration of Wifi and MQTT server (IP: 192.168.4.1, SSID: GrowattConfig, Pass: growsolar)
 * Currently Growatt v1.20, v1.24 and v3.05 protocols are implemented and can be easily extended/changed to fit anyone's needs
 * TLS support for esp32
+* Debugging via Web and Telnet
 
 Not supported:
 * It does not make use the RTC or SPI Flash of these boards.
@@ -54,12 +56,13 @@ See the short descriptions to the devices (including some pictures) in the "Doc"
 * Growatt MIC 600-3300TL-X (Protocol 124 via USB/Protocol 120 via Serial)
 * Growatt MID 3-25ktl3-x (Protocol 124 via USB)
 * Growatt MOD 3-15ktl3-x-xh (Protocol 120 via USB)
+* Growatt MOD 12KTL3-X (Protocol 124 via USB)
 * Growatt MID 25-40ktl3-x (Protocol 120 via USB)
 * Growatt SPH 4000-10000ktl3-x BH (Protocol 124 via Serial)
 * And others ....
 
 ## Modbus Protocol Versions
-The documentation from Growatt on the Modbus interface is avaliable, search for "Growatt PV Inverter Modbus RS485 RTU Protocol" on Google.
+The documentation from Growatt on the Modbus interface is available, search for "Growatt PV Inverter Modbus RS485 RTU Protocol" on Google.
 
 The older inverters apparently use Protocol v3.05 from year 2013.
 The newer inverters apparently use protocol v1.05 from year 2018.
@@ -71,34 +74,13 @@ For IoT applications the raw data can now read in JSON format (application/json)
 
 ## Homeassistant configuration
 
+Homeassistant config is described [here](Doc/MQTT.md)
 
-This will put the inverter on the energy dashboard.
-     
-     mqtt:
-        sensor:
-          - state_topic: "energy/solar"
-            unique_id: "growatt_wr_total_production"
-            name: "Growatt.TotalGenerateEnergy"
-            unit_of_measurement: "kWh"
-            value_template: "{{ float(value_json.TotalGenerateEnergy) | round(1) }}"
-            device_class: energy
-            state_class: total_increasing
-            json_attributes_topic: "energy/solar"
-            last_reset_topic: "energy/solar"
-            last_reset_value_template: "1970-01-01T00:00:00+00:00"
-            payload_available: "1"
-            availability_mode: latest
-            availability_topic: "energy/solar"
-            availability_template: "{{ value_json.InverterStatus }}"
+## Debugging
 
+If you turned on `ENABLE_WEB_DEBUG` in the Config.h (see Config.h.example) there is a debug site under `http://<ip>/debug`. You can turn on `ENABLE_TELNET_DEBUG` to get the debug messages via a telnet client. `telnet <ip>`
 
-To extract the current AC Power you have to add a sensor template.
-
-    template:
-      - sensor:
-          - name: "Growatt inverter AC Power"
-            unit_of_measurement: "W"
-            state: "{{ float(state_attr('sensor.growatt_inverter', 'OutputPower')) }}"
+To enable even more messages, take a look to `DEBUG_MODBUS_OUTPUT`.
 
 ## Change log
 
