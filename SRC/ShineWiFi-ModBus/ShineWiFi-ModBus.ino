@@ -339,10 +339,6 @@ void setup()
 
     LittleFS.begin();
 
-    LittleFS.begin();
-
-    LittleFS.begin();
-
     httpServer.on("/status", sendJsonSite);
     httpServer.on("/uistatus", sendUiJsonSite);
     httpServer.on("/StartAp", StartConfigAccessPoint);
